@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: "Lucene Test"
+    
+#DB Connection
+  datasource:
+    url: jdbc:mysql://localhost:3306/SEARCH?autoReconnect=true&rewriteBatchedStatements=true
+    username: dev
+    password: "0516"
+    driver-class-name: com.mysql.jdbc.Driver
+    testOnBorrow: true
+    validationQuery: SELECT 1
+
+#Query
+query:
+    # 색인대상
+    selectDeals: |
+      SELECT DID
+           , DEALNAME
+           , OSDIDS
+        FROM T_DEALS
+       WHERE NOW() BETWEEN SDATE AND EDATE
+         AND C_SVCYN=1
+         AND SOLDOUTYN = 0
+         AND BBYN = 9
+         AND OSDIDS IS NOT NULL
+       ORDER BY DID DESC
+       LIMIT 4000
